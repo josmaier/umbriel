@@ -142,6 +142,12 @@ Sizing rules per layout live in [Sizing behavior](layout.md#sizing-behavior).
 | `window-move-to-output-next`                                                                   | Move the focused window to the next output                  |
 | `window-move-to-output-previous`                                                               | Move the focused window to the previous output              |
 | `window-move-to-output-right`                                                                  | Move the focused window to the output right                 |
+| `window-move-to-output-silent-down`                                                            | Move the focused window to the output below silently        |
+| `window-move-to-output-silent-left`                                                            | Move the focused window to the output left silently         |
+| `window-move-to-output-silent-next`                                                            | Move the focused window to the next output silently         |
+| `window-move-to-output-silent-previous`                                                        | Move the focused window to the previous output silently     |
+| `window-move-to-output-silent-right`                                                           | Move the focused window to the output right silently        |
+| `window-move-to-output-silent-up`                                                              | Move the focused window to the output above silently        |
 | `window-move-to-output-up`                                                                     | Move the focused window to the output above                 |
 | `window-move-up`                                                                               | Move up in its column, or a float to the top edge           |
 | `window-set-primary-extent <fraction>`                                                         | Set the focused area's primary extent fraction              |
@@ -313,6 +319,7 @@ See [Layout](layout.md) for geometry, directions, and resizing behavior.
 ## Notes
 
 - Output direction actions do not wrap. The `next` and `previous` variants do.
+- A silent window move, to a workspace or to an output, delivers the window without following it: keyboard focus passes to the next window where it was, the active workspaces stay as they were, and the pointer does not move.
 - Workspace `next`, `previous`, `move-up`, and `move-down` do not wrap.
 - A whole-column move preserves order, proportions, and column extent. Between scrolling workspaces, it also preserves tab groups, their selected tabs, and individual tab-bar visibility overrides.
 - Moving a multi-window column into Dwindle creates separate tiles.

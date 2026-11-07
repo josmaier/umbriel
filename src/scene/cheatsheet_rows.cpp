@@ -443,6 +443,12 @@ namespace {
     case A::WindowMoveToOutputDown:
     case A::WindowMoveToOutputNext:
     case A::WindowMoveToOutputPrevious:
+    case A::WindowMoveToOutputSilentLeft:
+    case A::WindowMoveToOutputSilentRight:
+    case A::WindowMoveToOutputSilentUp:
+    case A::WindowMoveToOutputSilentDown:
+    case A::WindowMoveToOutputSilentNext:
+    case A::WindowMoveToOutputSilentPrevious:
     case A::ColumnMoveToOutputLeft:
     case A::ColumnMoveToOutputRight:
     case A::ColumnMoveToOutputUp:

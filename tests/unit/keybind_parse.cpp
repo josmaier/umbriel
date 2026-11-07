@@ -14,6 +14,7 @@
 #include <cstddef>
 #include <format>
 #include <string>
+#include <utility>
 #include <variant>
 #include <vector>
 
@@ -435,6 +436,21 @@ UMBRIEL_TEST(parsesArgumentFreeNewActions) {
 
   CHECK(parseAction("window-move-to-workspace-silent-previous", bind));
   CHECK(bind.action == KeybindAction::WindowMoveToWorkspaceSilentPrevious);
+
+  // Silent output moves are distinct actions from the following ones and carry no payload.
+  for (const auto& [name, action] : {
+           std::pair{"window-move-to-output-silent-left", KeybindAction::WindowMoveToOutputSilentLeft},
+           std::pair{"window-move-to-output-silent-right", KeybindAction::WindowMoveToOutputSilentRight},
+           std::pair{"window-move-to-output-silent-up", KeybindAction::WindowMoveToOutputSilentUp},
+           std::pair{"window-move-to-output-silent-down", KeybindAction::WindowMoveToOutputSilentDown},
+           std::pair{"window-move-to-output-silent-next", KeybindAction::WindowMoveToOutputSilentNext},
+           std::pair{"window-move-to-output-silent-previous", KeybindAction::WindowMoveToOutputSilentPrevious},
+       }) {
+    CHECK(parseAction(name, bind));
+    CHECK(bind.action == action);
+    CHECK(std::holds_alternative<std::monostate>(bind.payload));
+  }
+  CHECK(!parseAction("window-move-to-output-silent", bind));
 
   CHECK(parseAction("column-move-to-workspace-next", bind));
   CHECK(bind.action == KeybindAction::ColumnMoveToWorkspaceNext);

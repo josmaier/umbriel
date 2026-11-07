@@ -1726,7 +1726,9 @@ namespace umbriel {
       return focusOutput(server, *target);
     }
 
-    bool moveFocusedWindowToOutput(Server& server, Output& target, std::string* error) {
+    // A silent move (`follow` false) delivers the window to the target output's active workspace while the keyboard
+    // focus, the active workspaces, and the cursor stay where they were, as window-move-to-workspace-silent does.
+    bool moveFocusedWindowToOutput(Server& server, Output& target, std::string* error, bool follow = true) {
       WorkspaceGroup* targetGroup = target.workspaceGroup();
       Workspace* destination = targetGroup != nullptr ? targetGroup->active() : nullptr;
       if (destination == nullptr) {
@@ -1736,11 +1738,11 @@ namespace umbriel {
       if (view == nullptr) {
         return true; // nothing focused: silent no-op
       }
-      moveViewToWorkspace(server, *view, *destination);
+      moveViewToWorkspace(server, *view, *destination, follow);
       return true;
     }
 
-    template <wlr_direction D>
+    template <wlr_direction D, bool Follow = true>
     bool actionWindowMoveToOutput(Server& server, const Keybind& /*bind*/, std::string* error) {
       if (scratchpadHoldsFocus(server)) {
         return true;
@@ -1750,10 +1752,10 @@ namespace umbriel {
       if (target == nullptr) {
         return reject(error, std::move(message));
       }
-      return moveFocusedWindowToOutput(server, *target, error);
+      return moveFocusedWindowToOutput(server, *target, error, Follow);
     }
 
-    template <int Step>
+    template <int Step, bool Follow = true>
     bool actionWindowMoveToOutputCycle(Server& server, const Keybind& /*bind*/, std::string* error) {
       if (scratchpadHoldsFocus(server)) {
         return true;
@@ -1763,7 +1765,7 @@ namespace umbriel {
       if (target == nullptr) {
         return reject(error, std::move(message));
       }
-      return moveFocusedWindowToOutput(server, *target, error);
+      return moveFocusedWindowToOutput(server, *target, error, Follow);
     }
 
     template <wlr_direction D>
@@ -2295,6 +2297,12 @@ namespace umbriel {
         &actionWindowMoveToOutput<WLR_DIRECTION_DOWN>,
         &actionWindowMoveToOutputCycle<1>,
         &actionWindowMoveToOutputCycle<-1>,
+        &actionWindowMoveToOutput<WLR_DIRECTION_LEFT, false>,
+        &actionWindowMoveToOutput<WLR_DIRECTION_RIGHT, false>,
+        &actionWindowMoveToOutput<WLR_DIRECTION_UP, false>,
+        &actionWindowMoveToOutput<WLR_DIRECTION_DOWN, false>,
+        &actionWindowMoveToOutputCycle<1, false>,
+        &actionWindowMoveToOutputCycle<-1, false>,
         &actionColumnMoveToOutput<WLR_DIRECTION_LEFT>,
         &actionColumnMoveToOutput<WLR_DIRECTION_RIGHT>,
         &actionColumnMoveToOutput<WLR_DIRECTION_UP>,

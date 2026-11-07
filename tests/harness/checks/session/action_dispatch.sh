@@ -45,6 +45,8 @@ for action in \
   window-focus-or-output-left window-focus-or-output-right window-focus-or-output-up window-focus-or-output-down \
   window-move-or-output-left window-move-or-output-right window-move-or-output-up window-move-or-output-down \
   window-move-to-output-left window-move-to-output-right window-move-to-output-up window-move-to-output-down \
+  window-move-to-output-silent-left window-move-to-output-silent-right \
+  window-move-to-output-silent-up window-move-to-output-silent-down \
   column-move-to-output-left column-move-to-output-right column-move-to-output-up column-move-to-output-down \
   workspace-move-to-output-left workspace-move-to-output-right workspace-move-to-output-up workspace-move-to-output-down; do
   rejects_with "$action" "no output"
@@ -53,6 +55,7 @@ for action in \
   output-focus-next output-focus-previous \
   workspace-move-to-output-next workspace-move-to-output-previous \
   window-move-to-output-next window-move-to-output-previous \
+  window-move-to-output-silent-next window-move-to-output-silent-previous \
   workspace-swap-active-output-next workspace-swap-active-output-previous; do
   rejects_with "$action" "no other output"
 done
